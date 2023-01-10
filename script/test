@@ -1,0 +1,8 @@
+#! bin/bash
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+python -m pytest
+# and any steps to configure the teest environment and run tests

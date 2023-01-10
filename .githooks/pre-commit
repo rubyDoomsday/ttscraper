@@ -1,0 +1,10 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$0")/../.."
+
+echo "==> Running pre-commit hooks"
+# add hook scripts to .git_hooks directory and update this script to execute
+# suggestions are linting, testing, validations, etc.
+exit 0

@@ -1,0 +1,41 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+SCRIPT_PATH="$( cd "$(dirname "$0")/.." >/dev/null 2>&1 ; pwd -P )"
+
+if [ "$PWD" != "$SCRIPT_PATH" ]; then
+    echo "Please run this command from the project root"
+    exit 1
+fi
+
+if ! command -v brew &> /dev/null; then
+    echo "Please install hombrew: https://brew.sh/"
+    exit 1
+fi
+
+echo "==> Building Develpment Environment…"
+# Add steps below this line
+
+# symlink to .git_hooks/pre-commit for all pre commit hooks
+if [ ! -f $(git rev-parse --git-dir)/hooks/pre-commit ]; then
+  ln -s ../../.githooks/pre-commit $(git rev-parse --git-dir)/hooks/pre-commit
+fi
+
+# installs dotenv for environment handling
+if ! command -v dotenv &> /dev/null; then
+  yarn global add dotenv-cli
+fi
+
+if ! command -v xcode-select &> /dev/null; then
+  xcode-select --install
+fi
+
+brew bundle install
+
+pyenv install "$(cat .python-version)" || echo "okey dokey"
+
+script/init
+exit 0

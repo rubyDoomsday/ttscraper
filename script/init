@@ -1,0 +1,23 @@
+#!/bin/bash
+
+set -e
+
+cd "$(dirname "$0")/.."
+
+SCRIPT_PATH="$( cd "$(dirname "$0")/.." >/dev/null 2>&1 ; pwd -P )"
+
+if [ "$PWD" != "$SCRIPT_PATH" ]; then
+    echo "Please run this command from the project root"
+    exit 1
+fi
+
+echo "==> Initializing Virutal Environment…"
+# Add steps below this line
+
+if [ ! -f $(git rev-parse --git-dir)/.venv ]; then
+  python -m venv .venv
+fi
+
+echo "Environment setup! Ready to code :)"
+echo "run source .venv/bin/activate to get started"
+exit 0
