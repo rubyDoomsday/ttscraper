@@ -1,15 +1,19 @@
 import csv
+import argparse
 from utils import resort, scraper
 
 # url = 'https://www.thousandtrails.com/new-jersey/acorn-campground'
 # print(json.dumps(resort(url), indent=4))
 
-def show():
+def show(park):
     resorts = resort.all()
-    for r in resorts : print(scraper.parse(r).to_json())
+    if park == None:
+        for r in resorts : print(scraper.parse(r).to_json())
+    else:
+        print(scraper.parse(resorts[int(park)]).to_json())
 
-def write():
-    f = open('results.csv', 'w')
+def write(filename = 'results.csv'):
+    f = open(filename, 'w')
     writer = csv.writer(f)
     resorts = resort.all()
     header = [
@@ -62,9 +66,17 @@ def write():
 
     f.close()
 
-def main():
-    write()
-    # show()
+def main(opts):
+    if opts.write == None:
+        show(opts.park)
+    else:
+        write(opts.write)
 
 if __name__=='__main__':
-    main()
+    argParser =argparse.ArgumentParser()
+    argParser.add_argument("-w", "--write", help="write to csv")
+    argParser.add_argument("-p", "--park", help="park ID")
+
+    args = argParser.parse_args()
+
+    main(args)
