@@ -12,7 +12,7 @@ ttscraper is a script that scrapes the thousand trails campsites for location de
 A bootstrap script has been supplied to install these dependencies and more the first time you clone the repository. From the project root run the following command:
 
 ```shell
-script/bootstrap
+bin/bootstrap
 ```
 
 # Testing
@@ -20,7 +20,7 @@ script/bootstrap
 To run repo tests use
 
 ```shell
-script/test
+bin/test
 ```
 
 ## Gitflow

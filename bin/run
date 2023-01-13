@@ -5,4 +5,4 @@ set -e
 cd "$(dirname "$0")/.."
 
 # add any steps to configure the teest environment and run tests
-python app/ttscraper.py -w output.csv
+python app.py
