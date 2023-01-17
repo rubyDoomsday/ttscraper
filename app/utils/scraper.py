@@ -3,6 +3,9 @@ import json
 from bs4 import BeautifulSoup
 from .parser import details, accommodations, amenities
 
+def parse(url):
+    return Scraper(url)
+
 class Scraper:
     def __init__(self, url):
         resp = requests.get(url)
@@ -26,7 +29,7 @@ class Scraper:
         return self.url.split('/')[3]
 
     def title(self):
-        return self.page.title.text
+        return self.page.title.text.split('|')[0]
 
     def overview(self):
         return self.page.find('section', id='resort-overview')
@@ -53,6 +56,3 @@ class Scraper:
         mapLink.reverse()
         url = mapLink[0].get('href')
         return url
-
-def parse(url):
-    return Scraper(url)
