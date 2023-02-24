@@ -1,7 +1,7 @@
 import requests
 import json
 from bs4 import BeautifulSoup
-from .parser import details, accommodations, amenities
+from .parser import details, accommodations, amenities, gps
 
 def parse(url):
     return Scraper(url)
@@ -23,7 +23,18 @@ class Scraper:
             'available_amenities': self.available_amenities(),
             'amenities': self.amenities(),
             'resort_map': self.maplink(),
+            'gps': self.gps(),
+            'encore': self.encore(),
         }, indent=4)
+
+    def encore(self):
+        if 'encore' in self.title().lower():
+            return 'true'
+        else:
+            return 'false'
+
+    def gps(self):
+        return gps.new(self.details()['address']).results
 
     def state(self):
         return self.url.split('/')[3]
