@@ -2,9 +2,9 @@ import requests
 import json
 from bs4 import BeautifulSoup
 
-INVALID_URLS = [
-    "https://www.thousandtrails.com/georgia/hiawassee-koa/",
-    "https://www.thousandtrails.com/rhode-island/timber-creek-rv-resort/",
+INVALID_SITES = [
+    "hiawassee-koa",
+    "timber-creek-rv-resort",
 ]
 
 class Resort:
@@ -33,9 +33,10 @@ class Resort:
         return  BeautifulSoup(resp.content, 'html.parser')
 
     def __clean(self, lst):
-        for invalid in INVALID_URLS:
-            if invalid in lst:
-              lst.remove(invalid)
+        for invalid in INVALID_SITES:
+            for url in lst:
+                if invalid in url:
+                  lst.remove(url)
 
         return lst
 
