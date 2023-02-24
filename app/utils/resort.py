@@ -34,7 +34,8 @@ class Resort:
 
     def __clean(self, lst):
         for invalid in INVALID_URLS:
-            lst.remove(invalid)
+            if invalid in lst:
+              lst.remove(invalid)
 
         return lst
 

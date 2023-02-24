@@ -20,6 +20,9 @@ headers = [
     'description',
     'address',
     'season',
+    'latitude',
+    'longitude',
+    'encore',
 ]
 
 def write(scraper, resort, filename = 'results.csv'):
@@ -59,6 +62,9 @@ class CSV:
                 resort_.description(),
                 resort_.details()['address'],
                 resort_.details()['season'],
+                resort_.gps()['latitude'],
+                resort_.gps()['longitude'],
+                resort_.encore()
             ]
             writer.writerow(row)
 
