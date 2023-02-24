@@ -7,7 +7,7 @@ from app.utils.parser import details
 def mock_page():
     this_dir = os.path.dirname(__file__)
     return BeautifulSoup(
-                open(os.path.join(this_dir, '../examples/resort.html')),
+                open(os.path.join(this_dir, '../../examples/resort.html')),
                 "html.parser"
            )
 
