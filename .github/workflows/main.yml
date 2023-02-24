@@ -35,4 +35,4 @@ jobs:
         run: pip install pytest
 
       - name: Script Test
-        run: bin/test
+        run: python -m pytest
