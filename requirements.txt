@@ -4,6 +4,8 @@ bs4==0.0.1
 certifi==2022.12.7
 charset-normalizer==2.1.1
 exceptiongroup==1.1.0
+geographiclib==2.0
+geopy==2.3.0
 idna==3.4
 iniconfig==2.0.0
 packaging==23.0
