@@ -1,41 +1,43 @@
 import pytest
 import os
+import json
 from dataclasses import dataclass
 from unittest import mock
 from app.utils import scraper
 
+
 @dataclass
 class MockResponse:
-    response: int
+    status_code: int
+    example_html: str
+    url: str = "http://thousandtrails.com/state/park"
+
+    def response(self):
+        resp = mock.Mock()
+        resp.status_code = self.status_code
+        resp.content = self.html()
+
+        return resp
 
     def html(self):
         this_dir = os.path.dirname(__file__)
-        return open(os.path.join(this_dir, '../examples/resort.html'))
+        return open(os.path.join(this_dir, self.example_html)).read()
 
-mock_url = "http://thousandtrails.com/state/park"
 
-@mock.patch('requests.get')
-def test_state(mock_url, mock_get):
-    mock_get.return_value = MockResponse(200)
-    resort = scraper.parse(mock_url)
+class TestScraper:
+    @mock.patch('requests.get')
+    def test_state(self, mock_get):
+        mock = MockResponse(200, '../examples/resort.html')
+        mock_get.return_value = mock.response()
+        resort = scraper.parse(mock.url)
 
-# def test_to_json(mock_url):
-#     resort = scraper.parse(mock_url)
-#
-# def test_title(mock_url):
-#     resort = scraper.parse(mock_url)
-#
-# def test_overview(mock_url):
-#     resort = scraper.parse(mock_url)
-#
-# def test_details(mock_url):
-#     resort = scraper.parse(mock_url)
-#
-# def test_accommodations(mock_url):
-#     resort = scraper.parse(mock_url)
-#
-# def test_amenities(mock_url):
-#     resort = scraper.parse(mock_url)
-#
-# def test_maplink(mock_url):
-#     resort = scraper.parse(mock_url)
+        assert resort.state() == "state"
+        assert resort.title() == "Acorn Campground"
+        assert "Acorn Campground is nestled in beautiful southern Cape May" in resort.description()
+        assert sorted(resort.details().keys()) == sorted(['address', 'season', 'sites', 'membership'])
+        assert sorted(resort.accomodations().keys()) == sorted(['rental accommodations', 'rv sites', 'tent sites'])
+        assert 'swimming pool' in resort.available_amenities()
+
+        assert 'state' in json.loads(resort.to_json()).keys()
+
+

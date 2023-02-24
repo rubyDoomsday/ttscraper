@@ -29,13 +29,10 @@ class Scraper:
         return self.url.split('/')[3]
 
     def title(self):
-        return self.page.title.text.split('|')[0]
-
-    def overview(self):
-        return self.page.find('section', id='resort-overview')
+        return self.page.title.text.split('|')[0].strip()
 
     def description(self):
-        description = self.overview().find('p', class_='resort-description')
+        description = self.__overview().find('p', class_='resort-description')
         return description.text
 
     def details(self):
@@ -56,3 +53,7 @@ class Scraper:
         mapLink.reverse()
         url = mapLink[0].get('href')
         return url
+
+    def __overview(self):
+        return self.page.find('section', id='resort-overview')
+
