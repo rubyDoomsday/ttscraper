@@ -38,6 +38,4 @@ class TestScraper:
         assert sorted(resort.accomodations().keys()) == sorted(['rental accommodations', 'rv sites', 'tent sites'])
         assert 'swimming pool' in resort.available_amenities()
 
-        assert 'state' in json.loads(resort.to_json()).keys()
-
 

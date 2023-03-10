@@ -1,5 +1,4 @@
 from .utils import destination, resort, csv
-from .cell import reception
 
 def run(args):
     Ttscraper(args).run()
