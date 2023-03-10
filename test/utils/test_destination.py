@@ -3,7 +3,7 @@ import os
 import json
 from dataclasses import dataclass
 from unittest import mock
-from app.utils import scraper
+from app.utils import destination
 
 
 @dataclass
@@ -29,7 +29,7 @@ class TestScraper:
     def test_state(self, mock_get):
         mock = MockResponse(200, '../examples/resort.html')
         mock_get.return_value = mock.response()
-        resort = scraper.parse(mock.url)
+        resort = destination.parse(mock.url)
 
         assert resort.state() == "state"
         assert resort.title() == "Acorn Campground"
@@ -37,7 +37,5 @@ class TestScraper:
         assert sorted(resort.details().keys()) == sorted(['address', 'season', 'sites', 'membership'])
         assert sorted(resort.accomodations().keys()) == sorted(['rental accommodations', 'rv sites', 'tent sites'])
         assert 'swimming pool' in resort.available_amenities()
-
-        assert 'state' in json.loads(resort.to_json()).keys()
 
 

@@ -20,17 +20,19 @@ headers = [
     'description',
     'address',
     'season',
-    'latitude',
-    'longitude',
+    'att_bars',
+    'verizon_bars',
     'encore',
+    'att_link',
+    'verizon_link',
 ]
 
-def write(scraper, resort, filename = 'results.csv'):
-    CSV(scraper, resort, filename).write()
+def write(destination, resort, filename = 'results.csv'):
+    CSV(destination, resort, filename).write()
 
 class CSV:
-    def __init__(self, scraper, resort, filename):
-        self.scraper = scraper
+    def __init__(self, destination, resort, filename):
+        self.destination = destination
         self.resort = resort
         self.filename = filename
 
@@ -40,7 +42,7 @@ class CSV:
         resorts = self.resort.all()
         writer.writerow(headers)
         for r in resorts:
-            resort_ = self.scraper.parse(r)
+            resort_ = self.destination.parse(r)
             print(resort_.url)
             try:
                 row = [
@@ -63,9 +65,11 @@ class CSV:
                     resort_.description(),
                     resort_.details()['address'],
                     resort_.details()['season'],
-                    resort_.gps()['latitude'],
-                    resort_.gps()['longitude'],
-                    resort_.encore()
+                    resort_.signal()['att'],
+                    resort_.signal()['verizon'],
+                    resort_.encore(),
+                    resort_.cellMapper().att(),
+                    resort_.cellMapper().verizon(),
                 ]
                 writer.writerow(row)
             except Exception as e:
