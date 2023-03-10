@@ -1,14 +1,22 @@
-from .utils import scraper, resort, csv
+from .utils import destination, resort, csv
+from .cell import reception
 
-def show(park):
-    resorts = resort.all()
-    if park == None:
-        for r in resorts : print(scraper.parse(r).to_json())
-    else:
-        print(scraper.parse(resorts[int(park)]).to_json())
+def run(args):
+    Ttscraper(args).run()
 
-def run(opts):
-    if opts.write == None:
-        show(opts.park)
-    else:
-        csv.write(scraper, resort, opts.write)
+class Ttscraper:
+    def __init__(self, args):
+        self.args = args
+
+    def run(self):
+        if self.args.write == None:
+            self.__show(self.args.park)
+        else:
+            csv.write(destination, resort, self.args.write)
+
+    def __show(self, park):
+        resorts = resort.all()
+        if park == None:
+            for r in resorts : print(destination.parse(r).to_json())
+        else:
+            print(destination.parse(resorts[int(park)]).to_json())
