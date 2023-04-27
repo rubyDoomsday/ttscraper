@@ -2,11 +2,13 @@ import requests
 import json
 from bs4 import BeautifulSoup
 from .parser import details, accommodations, amenities, gps
+from . import campendium
+from .handler import cellmapper as cm
 
 def parse(url):
-    return Scraper(url)
+    return Destination(url)
 
-class Scraper:
+class Destination:
     def __init__(self, url):
         resp = requests.get(url)
         self.url = url
@@ -25,7 +27,16 @@ class Scraper:
             'resort_map': self.maplink(),
             'gps': self.gps(),
             'encore': self.encore(),
+            'signal': self.signal(),
+            'cm_att_link': self.cellMapper().att(),
+            'cm_verizon_link': self.cellMapper().verizon(),
         }, indent=4)
+
+    def signal(self):
+        return campendium.parse(self.title())
+
+    def cellMapper(self):
+        return cm.Cellmapper(self.gps()['latitude'], self.gps()['longitude'])
 
     def encore(self):
         if 'encore' in self.title().lower():
