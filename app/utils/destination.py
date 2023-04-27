@@ -27,6 +27,7 @@ class Destination:
             'resort_map': self.maplink(),
             'gps': self.gps(),
             'encore': self.encore(),
+            "membership": self.details()['membership'],
             'signal': self.signal(),
             'cm_att_link': self.cellMapper().att(),
             'cm_verizon_link': self.cellMapper().verizon(),
