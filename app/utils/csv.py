@@ -23,6 +23,7 @@ headers = [
     'att_bars',
     'verizon_bars',
     'encore',
+    'membership',
     'att_link',
     'verizon_link',
 ]
@@ -68,6 +69,7 @@ class CSV:
                     resort_.signal()['att'],
                     resort_.signal()['verizon'],
                     resort_.encore(),
+                    resort_.details().get('membership', 'unknown'),
                     resort_.cellMapper().att(),
                     resort_.cellMapper().verizon(),
                 ]
